@@ -6,8 +6,11 @@
 #include "libraries/temperature/TH02_dev.cpp"
 
 // Light sensor library
+#include "libraries/light/light.cpp"
 
 // Clock sensor library
+
+LightSensor light(A10);
 
 void setupTemperature() {
   /* Power up,delay 150ms,until voltage is stable */
@@ -33,14 +36,19 @@ float readHumidity() {
 }
 
 void loop() {
-   float temper = readTemperature()
-   Serial.println("Temperature: ");
-   Serial.print(temper);
-   Serial.println("C\r\n");
 
-   float humidity = readHumidity();
-   Serial.println("Humidity: ");
-   Serial.print(humidity);
-   Serial.println("%\r\n");
+   float value = light.ReadLight();
+
+   Serial.println(value);
+
+  //  float temper = readTemperature();
+  //  Serial.println("Temperature: ");
+  //  Serial.print(temper);
+  //  Serial.println("C\r\n");
+
+  //  float humidity = readHumidity();
+  //  Serial.println("Humidity: ");
+  //  Serial.print(humidity);
+  //  Serial.println("%\r\n");
    delay(1000);
 }
