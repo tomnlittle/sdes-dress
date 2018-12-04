@@ -1,0 +1,6 @@
+{
+    "sketch": "main.ino",
+    "port": "/dev/cu.usbmodem14201",
+    "board": "arduino:avr:LilyPadUSB",
+    "output": "../build"
+}
