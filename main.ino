@@ -2,44 +2,30 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-// Temperature sensor library
-#include "libraries/temperature/TH02_dev.cpp"
-
-// Light sensor library
-#include "libraries/light/light.cpp"
-
+// #include "libraries/temperature/TH02_dev.cpp" // Temperature sensor library
+// #include "libraries/light/light.cpp" // Light sensor library
 // Clock sensor library
+#include "libraries/servo/servo.cpp"
 
-LightSensor light(A10);
+// LightSensor light(A10);
 
-void setupTemperature() {
-  /* Power up,delay 150ms,until voltage is stable */
-  delay(150);
+ServoActuator servo(10);
 
-  /* Reset HP20x_dev */
-  TH02.begin();
-  delay(100);
-}
 
 void setup() {
   Serial.begin(9600);
 
-  setupTemperature();
+  // setupTemperature();
 }
 
-float readTemperature() {
-  return TH02.ReadTemperature();
-}
-
-float readHumidity() {
-  return TH02.ReadHumidity();
-}
 
 void loop() {
 
-   float value = light.ReadLight();
+  servo.UpdateLocation(180);
 
-   Serial.println(value);
+  //  float value = light.ReadLight();
+
+  //  Serial.println(value);
 
   //  float temper = readTemperature();
   //  Serial.println("Temperature: ");
@@ -50,5 +36,24 @@ void loop() {
   //  Serial.println("Humidity: ");
   //  Serial.print(humidity);
   //  Serial.println("%\r\n");
+
+
    delay(1000);
 }
+
+// float readTemperature() {
+//   return TH02.ReadTemperature();
+// }
+
+// float readHumidity() {
+//   return TH02.ReadHumidity();
+// }
+
+// void setupTemperature() {
+//   /* Power up,delay 150ms,until voltage is stable */
+//   delay(150);
+
+//   /* Reset HP20x_dev */
+//   TH02.begin();
+//   delay(100);
+// }
