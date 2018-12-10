@@ -1,6 +1,6 @@
 {
     "sketch": "main.ino",
     "port": "/dev/cu.usbmodem14101",
-    "board": "arduino:avr:micro",
+    "board": "arduino:sam:arduino_due_x",
     "output": "../build"
 }

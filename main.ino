@@ -1,3 +1,4 @@
+
 // BUILT-IN LIBRARIES
 #include "Arduino.h"
 #include "Wire.h"
@@ -6,48 +7,46 @@
 // CUSTOM LIBRARIES
 #include "libraries/temperature/TH02_dev.cpp" // Temperature sensor library
 #include "libraries/light/light.cpp" // Light sensor library
-// #include "libraries/clock/clock.cpp" // Clock sensor library
+
+// #include "libraries/clock/DS1307.cpp"
+// #include "libraries/clockj/RTClib.cpp"
 
 // Servo servo;
 // int servoPosition = 0;
 
 LightSensor light(A10);
-// Clock clock;
 
-void isAlive() {
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(100);                       // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-  delay(100);
-}
+// Clock clock;
+// DS1307 clock;
+
+// RTC_DS1307 rtc;
+
+// char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
 
 void setup() {
-  Serial.begin(9600);
-
-  // Setup the builtin led
-  pinMode(LED_BUILTIN, OUTPUT);
-
-  // attach the main servo
-  // servo.attach(10);
-
-  /* Power up,delay 150ms,until voltage is stable */
+  // Temperature sensor
   delay(150);
-
-  /* Reset HP20x_dev */
   TH02.begin();
   delay(100);
+
+  // Clock
+  // if (!rtc.begin()) {
+  //   Serial.println("Couldn't find RTC");
+  //   while (1);
+  // }
+
+  // if (!rtc.isrunning()) {
+  //   Serial.println("RTC is NOT running!");
+  //   // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //   rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  // }
 }
 
 void loop() {
-
-  isAlive();
-  Serial.println(".");
-  Serial.println(light.ReadLight());
-  Serial.println(TH02.ReadTemperature());
+  // Serial.println(light.ReadLight());
+  // Serial.println(TH02.ReadTemperature());
   // Serial.println(TH02.ReadHumidity());
-
-
-  // clock.printTime();
 }
 
   // servo.UpdateLocation(180);
