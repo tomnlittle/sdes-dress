@@ -1,7 +1,5 @@
 
 #include "light.h"
-#include <Wire.h>
-#include <Arduino.h>
 
 LightSensor::LightSensor(int pin) {
   pinNumber = pin;

@@ -1,6 +1,6 @@
 {
     "sketch": "main.ino",
-    "port": "/dev/cu.usbmodem14201",
-    "board": "arduino:avr:LilyPadUSB",
+    "port": "/dev/cu.usbmodem14101",
+    "board": "arduino:avr:micro",
     "output": "../build"
 }
