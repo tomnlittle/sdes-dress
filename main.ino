@@ -2,59 +2,69 @@
 // BUILT-IN LIBRARIES
 #include "Arduino.h"
 #include "Wire.h"
-// #include "Servo.h"
+#include "Servo.h"
 
 // CUSTOM LIBRARIES
 #include "libraries/temperature/TH02_dev.cpp" // Temperature sensor library
 #include "libraries/light/light.cpp" // Light sensor library
 
-// #include "libraries/clock/DS1307.cpp"
-// #include "libraries/clockj/RTClib.cpp"
+#include "libraries/clock/RTClib.cpp"
+
+#define SERVO_PIN 9
 
 // Servo servo;
-// int servoPosition = 0;
+int servoPosition = 0;
+Servo servo;
 
-LightSensor light(A10);
+LightSensor light(A2);
 
-// Clock clock;
-// DS1307 clock;
-
-// RTC_DS1307 rtc;
-
-// char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-
+RTC_DS1307 rtc;
+char daysOfTheWeek[7][12] = {
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+};
 
 void setup() {
+
   // Temperature sensor
   delay(150);
   TH02.begin();
   delay(100);
 
-  // Clock
-  // if (!rtc.begin()) {
-  //   Serial.println("Couldn't find RTC");
-  //   while (1);
-  // }
+  Serial.begin(57600);
 
-  // if (!rtc.isrunning()) {
-  //   Serial.println("RTC is NOT running!");
-  //   // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  //   rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
-  // }
+  // Clock
+  if (!rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    while (1);
+  }
+
+  if (!rtc.isrunning()) {
+    Serial.println("RTC is NOT running!");
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  }
+
+  // Servo
+  servo.attach(SERVO_PIN);
+
 }
 
 void loop() {
-  // Serial.println(light.ReadLight());
-  // Serial.println(TH02.ReadTemperature());
-  // Serial.println(TH02.ReadHumidity());
-}
+  DateTime now = rtc.now();
 
-  // servo.UpdateLocation(180);
-  //  for (pos = 0; pos <= 270; pos += 1) { // goes from 0 degrees to 180 degrees
-  //   servo.write(pos);              // tell servo to go to position in variable 'pos'
-  //   delay(15);                       // waits 15ms for the servo to reach the position
-  // }
-  // for (pos = 270; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-  //   servo.write(pos);              // tell servo to go to position in variable 'pos'
-  //   delay(15);                       // waits 15ms for the servo to reach the position
-  // }
+  Serial.println("-------------------------");
+  Serial.println(now.minute(), DEC);
+  Serial.println(light.ReadLight());
+  Serial.println(TH02.ReadTemperature());
+  Serial.println(TH02.ReadHumidity());
+
+  servo.write(160);
+  delay(1000);
+  servo.write(0);
+  delay(1000);
+}

@@ -1,6 +1,6 @@
 {
     "arduino.path": "/Applications",
-    "arduino.logLevel": "info",
+    "arduino.logLevel": "verbose",
     "arduino.enableUSBDetection": true,
     "arduino.disableTestingOpen": false,
     "arduino.skipHeaderProvider": false,
