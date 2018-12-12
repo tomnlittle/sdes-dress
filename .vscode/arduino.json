@@ -1,7 +1,8 @@
 {
     "sketch": "main.ino",
-    "port": "/dev/cu.usbmodem14201",
-    "board": "arduino:avr:uno",
+    "port": "/dev/cu.usbserial-A50285BI",
+    "board": "arduino:avr:pro",
     "output": "../build",
-    "programmer": "ArduinoISP"
+    "programmer": "ArduinoISP",
+    "configuration": "cpu=16MHzatmega328"
 }
