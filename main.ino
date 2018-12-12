@@ -8,11 +8,15 @@
 #include "libraries/temperature/TH02_dev.cpp"
 #include "libraries/clock/RTClib.cpp"
 
-#define SERVO_PIN 9
+#define SERVO_PIN_1 9
+#define SERVO_PIN_2 8
 
 // Servo servo;
-int servoPosition = 0;
-Servo servo;
+int sPosition1 = 0;
+int sPosition2 = 0;
+
+Servo servo_1;
+Servo servo_2;
 
 RTC_DS1307 rtc;
 char daysOfTheWeek[7][12] = {
@@ -35,22 +39,16 @@ void setup() {
   delay(100);
 
   // Clock
-  if (!rtc.begin()) {
-    Serial.println("Couldn't find RTC");
-    while (1);
-  }
-
-  if (!rtc.isrunning()) {
-    Serial.println("RTC is NOT running!");
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  }
+  while (!rtc.begin());
+  Serial.println("RTC is NOT running!");
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
   // Servo
-  servo.attach(SERVO_PIN);
+  servo_1.attach(SERVO_PIN_1);
+  servo_2.attach(SERVO_PIN_2);
 
   // Activate the built-in LED
   pinMode(LED_BUILTIN, OUTPUT);
-
 }
 
 bool systemStatus(DateTime now) {
@@ -58,6 +56,12 @@ bool systemStatus(DateTime now) {
   bool tempCheck = TH02.ReadTemperature() > 20 && TH02.ReadTemperature() < 80;
 
   return timeCheck && tempCheck;
+}
+
+void moveServo(int position) {
+  servo_1.write(position);
+  servo_2.write(position);
+  delay(15);
 }
 
 void loop() {
@@ -77,8 +81,9 @@ void loop() {
   Serial.println(TH02.ReadTemperature());
   Serial.println(TH02.ReadHumidity());
 
-  // servo.write(360);
-  // delay(1000);
-  // servo.write(0);
-  // delay(1000);
+  if (TH02.ReadTemperature() > 30) {
+    for (int pos = 0; pos <= 360; pos += 1) {
+      moveServo(pos);
+    }
+  }
 }
