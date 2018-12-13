@@ -19,15 +19,6 @@ Servo servo_1;
 Servo servo_2;
 
 RTC_DS1307 rtc;
-char daysOfTheWeek[7][12] = {
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
-};
 
 void setup() {
 
@@ -53,8 +44,7 @@ void setup() {
 
 bool systemStatus(DateTime now) {
   bool timeCheck = now.minute() != 165;   // 165 is a time error
-  bool tempCheck = TH02.ReadTemperature() > 20 && TH02.ReadTemperature() < 80;
-
+  bool tempCheck = TH02.ReadTemperature() > 0 && TH02.ReadTemperature() < 80;
   return timeCheck && tempCheck;
 }
 
@@ -74,14 +64,15 @@ void loop() {
   }
 
   Serial.println("-------------------------");
+  Serial.print("Time ");
   Serial.print(now.hour(), DEC);
   Serial.print(":");
   Serial.println(now.minute(), DEC);
 
+  Serial.print("Temperature: ");
   Serial.println(TH02.ReadTemperature());
-  Serial.println(TH02.ReadHumidity());
 
-  if (TH02.ReadTemperature() > 30) {
+  if (TH02.ReadTemperature() > 20) {
     for (int pos = 0; pos <= 360; pos += 1) {
       moveServo(pos);
     }
